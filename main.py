@@ -5,6 +5,8 @@ def calculate(usb_size, memes):
     val = []
     wt = []
     memes_names = []
+    choosen_memes = set()
+
     for meme in memes:
         val.append(meme[2])
         wt.append(meme[1])
@@ -21,16 +23,18 @@ def calculate(usb_size, memes):
             else:
                 K[i][w] = K[i - 1][w]
 
+    res = K[n][W]
 
+    w = W
+    for i in range(n, 0, -1):
+        if res <= 0:
+            break
+        if res == K[i - 1][w]:
+            continue
+        else:
+            choosen_memes.add(memes_names[i-1])
+            res = res - val[i - 1]
+            w = w - wt[i - 1]
 
-    return (K[n][W],"set of memes")
+    return (K[n][W], choosen_memes)
 
-
-usb_size = 1
-memes = [
-('rollsafe.jpg', 205, 6),
-('sad_pepe_compilation.gif', 410, 10),
-('yodeling_kid.avi', 605, 12)
-]
-
-print(calculate(usb_size, memes))
